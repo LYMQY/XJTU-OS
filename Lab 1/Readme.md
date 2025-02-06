@@ -24,11 +24,11 @@ systemctl restart sshd
 
 **Step 1 :**运行课本 p103 3.7 的程序，结果如下：（对格式稍作调整）
 
-![](C:\Users\H\Desktop\操作系统实验\实验一\images\1.png)
+
 
 **Step 2 :**删去wait()后，运行结果如下：
 
-![](C:\Users\H\Desktop\操作系统实验\实验一\images\2.png)
+
 
 可以看出父进程和子进程是并发执行的，父子进程输出顺序随机，在父进程中 `fork()` 的返回值是子进程的pid，而在子进程中 `fork()` 的返回值是0;
 
@@ -56,7 +56,7 @@ value += 1;
 
 **运行结果：**
 
-![](C:\Users\H\Desktop\操作系统实验\实验一\images\3.png)
+
 
 可以看到父进程和子进程中输出的值并不相同，即这两个 `value` 并不是同一个变量。但是它们的地址却一致，这是因为此地址仅为 `value` 在其各自的进程地址空间内的相对地址。而子进程是从父进程 `fork()` 而来的，因此他们的 `value` 的相对地址也一致。
 
@@ -70,7 +70,7 @@ value += 3;
 
 **运行结果：**
 
-![](C:\Users\H\Desktop\操作系统实验\实验一\images\4.png)
+
 
 可以看到父进程和子进程分别在`return`之前对各自的`value`进行了+3操作。
 
@@ -87,7 +87,7 @@ printf("child: pid = %d ", pid);
 printf("child: pid1 = %d\n", pid1);
 ```
 ****
-![](C:\Users\H\Desktop\操作系统实验\实验一\images\7.png)
+
 
 ****
 
@@ -99,7 +99,7 @@ system("./system_call");
 ```
 ****
 
-![](C:\Users\H\Desktop\操作系统实验\实验一\images\8.png)
+
 
 
 
@@ -112,7 +112,7 @@ printf("child: pid = %d ", pid);
 printf("child: pid1 = %d\n", pid1);
 ```
 ****
-![](C:\Users\H\Desktop\操作系统实验\实验一\images\5.png)
+
 
 ****
 ```c
@@ -123,7 +123,7 @@ execl("./system_call", NULL);
 ```
 ****
 
-![](C:\Users\H\Desktop\操作系统实验\实验一\images\6.png)
+
 
 在子进程中开始处调用 `execl("./system_call",NULL);`， 此处的 `"./system_call"` 的作用是输出进程的 pid 值。可以看到子进行直接去执行了 `./system_call`，不会执行源程序中打印 pid 的部分。这是因为当进程调用`execl`时该进程的用户空间和数据将被新程序替换。
 
@@ -169,7 +169,7 @@ for(i = 0; i < 100000; i++) {
 
 **运行结果：**
 
-![](C:\Users\H\Desktop\操作系统实验\实验一\images\9.png)
+
 
 可以观察到，多次运行程序，输出结果不同。与预期输出结果0并不一致。由于两个线程均要对`value`的值进行修改，但是却没有实现互斥访问，造成结果输出错误。
 
@@ -188,17 +188,17 @@ sem_post(&mutex);
 
 **运行结果：**
 
-![](C:\Users\H\Desktop\操作系统实验\实验一\images\10.png)
+
 
 可以观察到，实现了两个线程对共享变量的互斥访问，输出正确结果0。
 
 **Step 3: **system()与 exec 族函数的基础上，将这两个函数的调用改为在线程中实现，输出进程 PID 。使用`syscall(SYS_gettid)`线程的 TID （`syscall(SYS_gettid)`是通过内核分配的实际线程 tid，在系统范围内唯一的）进行分析。
 
-![](C:\Users\H\Desktop\操作系统实验\实验一\images\system.png)
+
 
 ****
 
-![](C:\Users\H\Desktop\操作系统实验\实验一\images\exe.png)
+
 
 可以观察到，多次运行程序之后，输出结果的顺序有所不同，与Part1相同，`system()` 调用时在线程中创建新进程来运行被调用的外部程序，而`execl()`调用时，直接将外部程序加载进当前进程，替换掉线程的后续执行代码。
 
@@ -242,7 +242,7 @@ int main() {
 
 **运行结果：**
 
-![](C:\Users\H\Desktop\操作系统实验\实验一\images\11.png)
+
 
 可以观察到自旋锁用于在线程竞争共享资源的同步机制，输出结果与预期结果一致。使用自旋锁可以保证同一时间只有一个线程在对临界区进行操作，而其他线程处于盲等状态，保证了对临界区的互斥访问。
 
